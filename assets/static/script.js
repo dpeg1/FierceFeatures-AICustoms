@@ -1,3 +1,28 @@
+// Wait for DOM to fully load before attaching event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Event Listeners for Dynamic Loading
+    document.getElementById('lash-style').addEventListener('change', loadLashImages);
+    document.getElementById('lash-length').addEventListener('change', loadLashImages);
+    document.getElementById('lash-curl').addEventListener('change', loadLashImages);
+    document.getElementById('lash-thickness').addEventListener('change', loadLashImages);
+
+    // Multi-Selection Mode Toggle
+    document.getElementById('multi-selection').addEventListener('change', (event) => {
+        multiSelection = event.target.checked;
+        loadLashImages();
+    });
+
+    // Reset Button Functionality
+    document.getElementById('reset-button').addEventListener('click', () => {
+        document.getElementById('lash-style').selectedIndex = 0;
+        document.getElementById('lash-length').selectedIndex = 0;
+        document.getElementById('lash-curl').selectedIndex = 0;
+        document.getElementById('lash-thickness').selectedIndex = 0;
+        document.getElementById('multi-selection').checked = false;
+        multiSelection = false;
+        document.getElementById('lash-preview').innerHTML = '<p>Select options to preview lashes...</p>';
+    });
+});
 // Fetch and load images dynamically
 function loadLashImages() {
     const style = document.getElementById('lash-style').value;
@@ -21,6 +46,49 @@ function loadLashImages() {
                     img.src = `/static/${imagePath}`;
                     img.alt = style;
                     container.appendChild(img);
+function loadLashImages() {
+    const style = document.getElementById('lash-style').value;
+    const length = document.getElementById('lash-length').value;
+    const curl = document.getElementById('lash-curl').value;
+    const thickness = document.getElementById('lash-thickness').value;
+    const container = document.getElementById('lash-preview');
+
+    // Show loading spinner while fetching images
+    showLoading();
+
+    // Fetch image paths from backend
+    fetch('/get-lash-images/')
+        .then(response => response.json())
+        .then(data => {
+            hideLoading();
+            container.innerHTML = ''; // Clear previous images
+
+            data[style].forEach(imagePath => {
+                if (
+                    imagePath.includes(length) &&
+                    imagePath.includes(curl) &&
+                    imagePath.includes(thickness)
+                ) {
+                    const img = document.createElement('img');
+                    img.src = `/static/${imagePath}`;
+                    img.alt = style;
+                    container.appendChild(img);
+                }
+            });
+
+            // ✅ Success Toast Goes Here
+            showToast('Images loaded successfully!');
+        })
+        .catch(error => {
+            hideLoading();
+            console.error('Error:', error);
+            container.innerHTML = '<p style="color:red;">Error loading images. Please try again.</p>';
+
+            // ❌ Error Toast Goes Here
+            showToast('Error loading images. Please try again.', false);
+        });
+}
+
                 }
             });
         })
@@ -225,4 +293,25 @@ function loadLashImages() {
             console.error('Error:', error);
             container.innerHTML = '<p style="color:red;">Error loading images. Please try again.</p>';
         });
+}
+// Toast Notification Function
+function showToast(message, isSuccess = true) {
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.textContent = message;
+    toast.style.backgroundColor = isSuccess ? '#4CAF50' : '#F44336';
+    document.body.appendChild(toast);
+
+    // Show Toast
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    // Hide Toast After 3 Seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 500);
+    }, 3000);
 }

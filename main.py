@@ -1,5 +1,25 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse
+
+app = FastAPI()
+
+# Serve Static Files with Caching Enabled
+app.mount(
+    "/static",
+    StaticFiles(directory="assets/static"),
+    name="static"
+)
+
+# Enable Caching for Images
+@app.get("/static/images/{path:path}")
+async def get_image(path: str):
+    return FileResponse(
+        f"assets/static/images/{path}",
+        headers={"Cache-Control": "public, max-age=31536000, immutable"}
+    )
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 import os
 
