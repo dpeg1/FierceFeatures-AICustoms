@@ -1,28 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
@@ -67,7 +42,7 @@ function FloatingCubes() {
   );
 }
 
-// Main App
+// Main App Component
 function App() {
   React.useEffect(() => {
     gsap.from('h1', { opacity: 0, y: -50, duration: 1.5, ease: 'power3.out' });
@@ -75,7 +50,7 @@ function App() {
 
   return (
     <Container>
-      <Header>Make It Lash</Header>
+      <Header>Fierce Features</Header>
       <Canvas>
         <OrbitControls />
         <ambientLight intensity={0.5} />
