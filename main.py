@@ -1,15 +1,22 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from starlette.responses import FileResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.middleware.cors import CORSMiddleware
+import os
 
 app = FastAPI()
 
-# Serve Static Files with Caching Enabled
-app.mount(
-    "/static",
-    StaticFiles(directory="assets/static"),
-    name="static"
+# CORS Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change to specific frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+# Serve Static Files
+app.mount("/static", StaticFiles(directory="assets/static"), name="static")
 
 # Enable Caching for Images
 @app.get("/static/images/{path:path}")
@@ -18,15 +25,6 @@ async def get_image(path: str):
         f"assets/static/images/{path}",
         headers={"Cache-Control": "public, max-age=31536000, immutable"}
     )
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
-import os
-
-app = FastAPI()
-
-# Serve Static Files
-app.mount("/static", StaticFiles(directory="assets/static"), name="static")
 
 # Function to Get Image Paths Dynamically
 def get_image_paths():
@@ -44,3 +42,17 @@ def get_image_paths():
 async def get_lash_images():
     image_paths = get_image_paths()
     return JSONResponse(content=image_paths)
+
+# Root route to check if API is running
+@app.get("/")
+def read_root():
+    return {"message": "Fierce Features AI Customs API is running!"}
+
+# Health check endpoint
+@app.get("/health")
+def health_check():
+    return {"status": "OK"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

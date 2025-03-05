@@ -9,5 +9,8 @@ myenv/
 .DS_Store
 .env
 
+# Database Files
+*.sqlite3
+
 # Caches
 .cache/
