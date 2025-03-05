@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,7 +6,7 @@ import os
 
 app = FastAPI()
 
-# CORS Configuration
+# CORS Configuration (Allows frontend to communicate with backend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Change to specific frontend URL in production
@@ -25,6 +25,17 @@ async def get_image(path: str):
         f"assets/static/images/{path}",
         headers={"Cache-Control": "public, max-age=31536000, immutable"}
     )
+
+# Upload Image API
+UPLOAD_DIR = "uploads"
+
+@app.post("/upload-image/")
+async def upload_image(file: UploadFile = File(...)):
+    """Handles image uploads"""
+    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    with open(file_path, "wb") as buffer:
+        buffer.write(await file.read())
+    return {"filename": file.filename, "message": "File uploaded successfully"}
 
 # Function to Get Image Paths Dynamically
 def get_image_paths():
@@ -53,6 +64,7 @@ def read_root():
 def health_check():
     return {"status": "OK"}
 
+# Run the FastAPI server (Only when executed directly)
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
