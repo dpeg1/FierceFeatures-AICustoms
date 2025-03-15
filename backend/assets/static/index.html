@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fierce Features, AI Customs</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Fierce Features, AI Customs</h1>
+        
+        <!-- Customization Options -->
+        <div class="customization">
+<h2 class="lash-header">Make It Lash</h2>
+
+            <label for="lash-style">Lash Style:</label>
+            <select id="lash-style">
+                <option value="natural">Natural</option>
+                <option value="dramatic">Dramatic</option>
+                <option value="wispy">Wispy</option>
+                <option value="cat-eye">Cat Eye</option>
+                <option value="colored">Colored</option>
+                <option value="bottom">Bottom</option>
+            </select>
+
+            <label for="lash-length">Lash Length:</label>
+            <select id="lash-length">
+                <option value="8mm">8mm</option>
+                <option value="10mm">10mm</option>
+                <option value="12mm">12mm</option>
+                <option value="14mm">14mm</option>
+                <option value="16mm">16mm</option>
+                <option value="18mm">18mm</option>
+                <option value="22mm">22mm</option>
+                <option value="25mm">25mm</option>
+            </select>
+
+            <label for="lash-curl">Lash Curl:</label>
+            <select id="lash-curl">
+                <option value="J_curl">J Curl</option>
+                <option value="B_curl">B Curl</option>
+                <option value="C_curl">C Curl</option>
+                <option value="D_curl">D Curl</option>
+            </select>
+
+            <label for="lash-thickness">Lash Thickness:</label>
+            <select id="lash-thickness">
+                <option value="0.03mm">0.03mm</option>
+                <option value="0.05mm">0.05mm</option>
+                <option value="0.07mm">0.07mm</option>
+                <option value="0.10mm">0.10mm</option>
+            </select>
+        </div>
+
+        <!-- Lash Preview Container -->
+        <div id="lash-preview" class="preview-container">
+            <p>Select options to preview lashes...</p>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
+<!-- Multi-Selection Mode -->
+<label for="multi-selection">Multi-Selection Mode:</label>
+<input type="checkbox" id="multi-selection">
+
+<!-- Reset Button -->
+<button id="reset-button" class="reset-btn">Reset Selections</button>
+<!-- Tooltip for Lash Style -->
+<label for="lash-style">Lash Style:</label>
+<select id="lash-style" title="Choose a style for your lashes">
+    <option value="natural" title="Soft, everyday look">Natural</option>
+    <option value="dramatic" title="Bold, fluffy, voluminous">Dramatic</option>
+    <option value="wispy" title="Textured, crisscross pattern">Wispy</option>
+    <option value="cat-eye" title="Shorter inner corner, longer outer wing">Cat Eye</option>
+    <option value="colored" title="Multiple colors and styles">Colored</option>
+    <option value="bottom" title="Defined lower lashes for full effect">Bottom</option>
+</select>

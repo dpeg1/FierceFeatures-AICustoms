@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+myenv/
+
+# System Files
+.DS_Store
+.env
+
+# Database Files
+*.sqlite3
+
+# Caches
+.cache/

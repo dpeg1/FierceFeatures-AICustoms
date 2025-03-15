@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+body {
+  background-color: #0d0d0d;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+button:focus {
+  outline: none;
+}
